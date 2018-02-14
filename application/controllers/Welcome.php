@@ -26,8 +26,9 @@ class Welcome extends CI_Controller {
 	}
 	public function index()
 	{
+		$query['informacion']=true;
 		$this->load->view('header');
-		$this->load->view('malla_ici');
+		$this->load->view('form_rut',$query);
 	
 
 	}

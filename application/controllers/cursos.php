@@ -13,10 +13,34 @@ class Cursos extends CI_Controller {
 	}
 
 	function guardarmalla(){
+	if (isset($_POST['rut'])) {
+	$rut=$this->input->post('rut');
 	
+	}
 	if (isset($_POST['cursos'])) {
 	$cursos=$this->input->post('cursos');
-    $_SESSION['obj'] = $_POST['cursos'];
-    $this->cargar_malla_model->recargar($cursos);
-	}}}
+    $this->cargar_malla_model->recargar($cursos,$rut);
+    
+	}
+	}
+
+
+	function buscarrut(){
+		$rut=$this->input->post('rut');
+		$query['informacion']=$this->cargar_malla_model->consultar_alumno($rut);
+		
+	     if($query['informacion']==false){
+	      	$this->load->view('header');
+			$this->load->view('form_rut',$query);
+	     }else{
+	     	for ($i=1; $i <= 12; $i++) { 
+		$query["s".$i]=$this->cargar_malla_model->consultar_cursos($rut,$i);
+	     }
+	     $query["req"]=$this->cargar_malla_model->consultar_requisitos();
+		$this->load->view('header');
+		$this->load->view('malla_ici',$query);
+		
+}	}
+
+}
 	
